@@ -906,7 +906,9 @@
       }
     }
 
-    /* RESPONSIVE */
+    /* === RESPONSIVE === */
+
+    /* Tablet-ish */
     @media (max-width: 992px) {
       .navbar { padding-inline: 24px; }
       .hero {
@@ -927,17 +929,100 @@
       }
     }
 
+    /* Tablet & small devices: show custom controls (no hover) */
+    @media (max-width: 768px) {
+      .gallery-item {
+        cursor: default;
+      }
+
+      .custom-controls {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .scroll-btns {
+        right: 16px;
+        bottom: 70px;
+      }
+
+      .scroll-btns button {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+      }
+    }
+
+    /* Mobile */
     @media (max-width: 600px) {
-      .nav-links { display: none; }
-      .navbar { justify-content: space-between; }
-      .hero-left h1 { font-size: 38px; }
+      .nav-links {
+        display: none;
+      }
+
+      .navbar {
+        justify-content: space-between;
+        padding-inline: 16px;
+        height: 56px;
+      }
+
+      .nav-logo {
+        font-size: 18px;
+      }
+
+      .nav-icons {
+        gap: 10px;
+        font-size: 16px;
+      }
+
+      :root {
+        --navbar-offset: 64px;
+      }
+
+      .hero {
+        padding-top: 96px;
+        padding-bottom: 70px;
+      }
+
+      .hero-left h1 {
+        font-size: 32px;
+      }
+
+      .hero-role {
+        font-size: 14px;
+      }
+
+      .hero-left .subtitle {
+        font-size: 13px;
+      }
+
       .orbit-wrapper {
-        width: 260px;
-        height: 260px;
+        width: 240px;
+        height: 240px;
       }
       .orbit-center {
-        width: 150px;
-        height: 150px;
+        width: 140px;
+        height: 140px;
+      }
+
+      section {
+        padding: 64px 16px;
+      }
+
+      section h2 {
+        font-size: 26px;
+      }
+
+      footer {
+        font-size: 12px;
+        padding-inline: 8px;
+      }
+
+      .project-grid,
+      .gallery {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .contact-card {
+        padding: 18px 16px;
       }
     }
   </style>
@@ -1237,7 +1322,6 @@
     </p>
 
     <div class="project-grid">
-      
 
       <!-- VanStore -->
       <div class="project-card">
@@ -1387,7 +1471,7 @@
             <button class="play-pause">
               <i class="fa-solid fa-pause"></i>
             </button>
-            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0">
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.25">
           </div>
 
           <span class="gallery-label">Random Clip #1</span>
@@ -1406,7 +1490,7 @@
             <button class="play-pause">
               <i class="fa-solid fa-pause"></i>
             </button>
-            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0">
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.25">
           </div>
 
           <span class="gallery-label">Random Clip #2</span>
@@ -1474,7 +1558,8 @@
     const btnUp = document.getElementById("btn-up");
     const btnDown = document.getElementById("btn-down");
     const sectionsOrder = ["home", "about", "projects", "dumb", "contact"];
-    const NAV_OFFSET = 72;
+    const NAV_OFFSET = parseInt(getComputedStyle(document.documentElement)
+                         .getPropertyValue('--navbar-offset')) || 72;
 
     // hide loader
     window.addEventListener("load", () => {
@@ -1563,39 +1648,43 @@
     typeLoop();
 
     // CUSTOM VIDEO CONTROLS
-    const dumbItems = document.querySelectorAll(".gallery-item");
-    dumbItems.forEach(item => {
-      const video = item.querySelector(".dumb-video");
-      const playBtn = item.querySelector(".play-pause");
-      const volSlider = item.querySelector(".volume-slider");
-      const icon = playBtn.querySelector("i");
+const dumbItems = document.querySelectorAll(".gallery-item");
+dumbItems.forEach(item => {
+  const video = item.querySelector(".dumb-video");
+  const playBtn = item.querySelector(".play-pause");
+  const volSlider = item.querySelector(".volume-slider");
+  const icon = playBtn.querySelector("i");
 
-      if (!video || !playBtn || !volSlider) return;
+  if (!video || !playBtn || !volSlider) return;
 
-      video.volume = 0;
+  // Awal: tetap muted & volume 0
+  video.muted = true;
+  video.volume = 0;
+  volSlider.value = 0;
 
-      playBtn.addEventListener("click", () => {
-        if (video.paused) {
-          video.play();
-          icon.classList.remove("fa-play");
-          icon.classList.add("fa-pause");
-        } else {
-          video.pause();
-          icon.classList.remove("fa-pause");
-          icon.classList.add("fa-play");
-        }
-      });
+  playBtn.addEventListener("click", () => {
+    if (video.paused) {
+      video.play();
+      icon.classList.remove("fa-play");
+      icon.classList.add("fa-pause");
+    } else {
+      video.pause();
+      icon.classList.remove("fa-pause");
+      icon.classList.add("fa-play");
+    }
+  });
 
-      video.addEventListener("click", () => {
-        playBtn.click();
-      });
+  video.addEventListener("click", () => {
+    playBtn.click();
+  });
 
-      volSlider.addEventListener("input", () => {
-        const vol = parseFloat(volSlider.value);
-        video.muted = false;
-        video.volume = vol;
-      });
-    });
+  volSlider.addEventListener("input", () => {
+    const vol = parseFloat(volSlider.value);
+    video.muted = vol === 0;   // kalau 0, mute lagi
+    video.volume = vol;
+  });
+});
+  
 
     // ABOUT FLIP CARDS
     document.querySelectorAll(".skill-card").forEach(card => {
