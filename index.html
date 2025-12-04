@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Portfolio | venzhyx.net</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Font & Icon -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    :root {
+      --accent: #5f8bff;
+      --accent-soft: #9a6bff;
+      --bg1: #0a0a18;
+      --bg2: #1a0f2f;
+      --navbar-offset: 72px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #1a0f2f 0%, #0a0a18 60%, #05050a 100%);
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* === LOADING SCREEN === */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #1a0f2f 0%, #0a0a18 60%, #05050a 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s;
+    }
+    #loader.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    #loader-inner {
+      position: relative;
+      width: 5.4em;
+      height: 5.4em;
+    }
+
+    #loader-hill {
+      position: absolute;
+      width: 7.1em;
+      height: 7.1em;
+      top: 1.7em;
+      left: 1.7em;
+      border-left: .25em solid #5f8bff;
+      transform: rotate(45deg);
+      filter: drop-shadow(0 0 18px #5f8bff);
+    }
+    #loader-hill::after {
+      content: '';
+      position: absolute;
+      width: 7.1em;
+      height: 7.1em;
+      left: 0;
+      background: radial-gradient(circle at top, #1a0f2f 0%, #0a0a18 60%, #05050a 100%);
+    }
+
+    #loader-box {
+      position: absolute;
+      left: 0;
+      bottom: -.1em;
+      width: 1em;
+      height: 1em;
+      border: .25em solid #7ca8ff;
+      border-radius: 15%;
+      transform: translate(0, -1em) rotate(-45deg);
+      animation: loaderPush 2.5s cubic-bezier(.79, 0, .47, .97) infinite;
+      filter: drop-shadow(0 0 10px #5f8bff);
+    }
+
+    @keyframes loaderPush {
+      0%   { transform: translate(0, -1em) rotate(-45deg); }
+      5%   { transform: translate(0, -1em) rotate(-50deg); }
+      20%  { transform: translate(1em, -2em) rotate(47deg); }
+      25%  { transform: translate(1em, -2em) rotate(45deg); }
+      30%  { transform: translate(1em, -2em) rotate(40deg); }
+      45%  { transform: translate(2em, -3em) rotate(137deg); }
+      50%  { transform: translate(2em, -3em) rotate(135deg); }
+      55%  { transform: translate(2em, -3em) rotate(130deg); }
+      70%  { transform: translate(3em, -4em) rotate(217deg); }
+      75%  { transform: translate(3em, -4em) rotate(220deg); }
+      100% { transform: translate(0, -1em) rotate(-225deg); }
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 72px;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(14px);
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-logo {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-size: 15px;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 4px;
+    }
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: 0.3s;
+    }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-icons {
+      display: flex;
+      gap: 18px;
+      font-size: 18px;
+    }
+    .nav-icons a {
+      opacity: 0.7;
+      transition: 0.3s;
+    }
+    .nav-icons a:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    /* HERO */
+    .hero {
+      padding-top: 120px;
+      padding-bottom: 100px;
+      padding-inline: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 60px;
+      min-height: 100vh;
+    }
+
+    .hero-left { max-width: 520px; }
+    .hero-left .hello {
+      font-size: 18px;
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+    .hero-left h1 {
+      font-size: 52px;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .hero-role {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent-soft);
+      margin-bottom: 14px;
+    }
+    .hero-left .subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+
+    #typewriter {
+      border-right: 3px solid rgba(255,255,255,0.7);
+      padding-right: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary, .btn-ghost {
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.25s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 18px rgba(95,139,255,0.4);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 26px rgba(95,139,255,0.7);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      border-color: rgba(255,255,255,0.3);
+      background: transparent;
+      color: #b0c4ff;
+    }
+    .btn-ghost:hover {
+      background: rgba(154,107,255,0.18);
+      border-color: var(--accent-soft);
+    }
+
+    .hero-social {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .hero-social a {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      opacity: 0.9;
+      transition: 0.25s;
+      backdrop-filter: blur(6px);
+    }
+    .hero-social a:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 0 16px rgba(95,139,255,0.7);
+    }
+
+    /* ORBIT AREA */
+    .hero-right {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .orbit-wrapper {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 0 40px rgba(255, 196, 0, 0.7));
+    }
+
+    .orbit-center {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 4px solid #ffd54a;
+      background: radial-gradient(circle at top, #fff8e1 0%, #ffb300 50%, #ff6f00 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .orbit-center img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .orbit-center::after {
+      content: "";
+      position: absolute;
+      inset: -18px;
+      border-radius: inherit;
+      border: 12px solid rgba(255,255,0,0.22);
+      filter: blur(14px);
+      z-index: -1;
+    }
+
+    .orbit-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #111827;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 0 18px rgba(0,0,0,0.7);
+      --radius: 150px;
+      --angle: 0deg;
+      transform-origin: center center;
+      animation: orbit 18s linear infinite;
+    }
+
+    .orbit-icon i {
+      font-size: 22px;
+      color: #fff;
+      pointer-events: none;
+    }
+
+    .orbit-icon.html { background: #e44d26; }
+    .orbit-icon.css  { background: #1572b6; }
+    .orbit-icon.js   { background: #f7df1e; color: #000; }
+    .orbit-icon.react{ background: #20232a; }
+    .orbit-icon.node { background: #3c873a; }
+    .orbit-icon.git  { background: #f14e32; }
+
+    @keyframes orbit {
+      from {
+        transform:
+          translate(-50%, -50%)
+          rotate(var(--angle))
+          translateX(var(--radius))
+          rotate(calc(var(--angle) * -1));
+      }
+      to {
+        transform:
+          translate(-50%, -50%)
+          rotate(calc(var(--angle) + 360deg))
+          translateX(var(--radius))
+          rotate(calc(var(--angle) * -1 - 360deg));
+      }
+    }
+
+    /* SCROLL BUTTONS */
+    .scroll-btns {
+      position: fixed;
+      right: 26px;
+      bottom: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      z-index: 50;
+    }
+    .scroll-btns button {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.25s;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .scroll-btns button:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 0 16px rgba(95,139,255,0.7);
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 80px 72px;
+      scroll-margin-top: var(--navbar-offset);
+    }
+    section h2 {
+      font-size: 32px;
+      margin-bottom: 14px;
+    }
+    section p {
+      max-width: 780px;
+      opacity: 0.9;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px 12px 24px;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    /* === ABOUT FLIP CARDS === */
+    .about-intro {
+      max-width: 780px;
+    }
+
+    .about-grid {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+    }
+
+    .skill-card {
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .skill-card-inner {
+      position: relative;
+      border-radius: 22px;
+      background: radial-gradient(circle at top, rgba(30,41,96,0.7), rgba(15,23,42,0.9));
+      border: 1px solid rgba(95,139,255,0.4);
+      padding: 18px 20px;
+      min-height: 180px;
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease;
+    }
+
+    .skill-card.flipped .skill-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .skill-card-face {
+      position: absolute;
+      inset: 0;
+      padding: 18px 20px;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .skill-card-front-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .skill-card-front-sub {
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
+    .skill-card-hint {
+      margin-top: 10px;
+      font-size: 11px;
+      opacity: 0.7;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .skill-card-hint i {
+      font-size: 10px;
+    }
+
+    .skill-card-back {
+      transform: rotateY(180deg);
+    }
+
+    .skill-list {
+      list-style: none;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .skill-item-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      opacity: 0.85;
+    }
+
+    .skill-bar {
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(148,163,184,0.2);
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+      width: var(--level, 50%);
+    }
+
+    /* === PROJECTS GRID CARDS === */
+    .project-grid {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .project-card {
+      position: relative;
+      border-radius: 22px;
+      padding: 18px 20px 20px;
+      background: radial-gradient(circle at top left, rgba(95,139,255,0.18), rgba(15,23,42,0.9));
+      border: 1px solid rgba(95,139,255,0.35);
+      box-shadow: 0 10px 30px rgba(15,23,42,0.8);
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+
+    .project-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top, rgba(154,107,255,0.18), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 45px rgba(15,23,42,0.95);
+      border-color: rgba(154,107,255,0.7);
+    }
+
+    .project-card:hover::before {
+      opacity: 1;
+    }
+
+    .project-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .project-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15,23,42,0.9);
+      box-shadow: 0 0 12px rgba(95,139,255,0.6);
+      font-size: 16px;
+      color: #cbd5ff;
+      flex-shrink: 0;
+    }
+
+    .project-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .project-desc {
+      font-size: 12px;
+      opacity: 0.85;
+      margin-bottom: 12px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .project-tag {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.5);
+      opacity: 0.9;
+    }
+
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      opacity: 0.8;
+    }
+
+    .project-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .project-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34,197,94,0.9);
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: #c7d2fe;
+      opacity: 0.9;
+    }
+
+    .project-link i {
+      font-size: 10px;
+    }
+
+    /* === GENERIC SECTION CARD (DUMB / ETC) === */
+    .section-card {
+      margin-top: 30px;
+      padding: 20px 22px;
+      border-radius: 22px;
+      background: rgba(20, 15, 40, 0.55);
+      border: 1px solid rgba(95,139,255,0.12);
+      backdrop-filter: blur(10px);
+      font-size: 13px;
+    }
+
+    /* GALLERY (DUMB) */
+    .gallery {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 22px;
+    }
+
+    .gallery-item {
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      aspect-ratio: 14 / 8;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .gallery-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .custom-controls {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.8);
+      border: 1px solid rgba(255,255,255,0.25);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: 0.2s ease;
+    }
+
+    .gallery-item:hover .custom-controls {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .custom-controls .play-pause {
+      border: none;
+      outline: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .custom-controls .play-pause:hover {
+      box-shadow: 0 0 10px rgba(95,139,255,0.7);
+    }
+
+    .custom-controls .volume-slider {
+      width: 70px;
+      cursor: pointer;
+    }
+
+    .gallery-label {
+      position: absolute;
+      bottom: 10px;
+      left: 12px;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(20,15,40,0.75);
+      border: 1px solid rgba(95,139,255,0.22);
+    }
+
+    /* === CONTACT LAYOUT === */
+    .contact-grid {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 22px;
+    }
+
+    .contact-card {
+      border-radius: 22px;
+      background: rgba(12, 18, 40, 0.9);
+      border: 1px solid rgba(95,139,255,0.3);
+      padding: 20px 22px;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top, rgba(95,139,255,0.18), transparent 60%);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .contact-main-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .contact-main-text {
+      font-size: 13px;
+      opacity: 0.9;
+      margin-bottom: 12px;
+    }
+
+    .contact-list {
+      list-style: none;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-list span {
+      opacity: 0.85;
+    }
+
+    .contact-cta-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: stretch;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .contact-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      background: rgba(15,23,42,0.95);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.25s;
+      color: #e5e7eb;
+    }
+
+    .contact-btn i {
+      font-size: 14px;
+    }
+
+    .contact-btn:hover {
+      border-color: var(--accent);
+      background: radial-gradient(circle at top, rgba(95,139,255,0.24), rgba(15,23,42,1));
+      box-shadow: 0 0 18px rgba(95,139,255,0.6);
+      transform: translateY(-2px);
+    }
+
+    .contact-btn.whatsapp:hover {
+      box-shadow: 0 0 20px rgba(34,197,94,0.7);
+    }
+
+    .contact-hint {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+
+    /* === STARFIELD BACKGROUND === */
+    .starfield {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: #ffffff;
+      opacity: 0.3;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    .star.layer-1 {
+      width: 1px;
+      height: 1px;
+      filter: blur(1px);
+    }
+    .star.layer-2 {
+      width: 2px;
+      height: 2px;
+      filter: blur(0.5px);
+    }
+    .star.layer-3 {
+      width: 3px;
+      height: 3px;
+      filter: drop-shadow(0 0 4px rgba(255,255,255,0.9));
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.15; }
+      50%      { opacity: 1; }
+    }
+
+    .shooting-star {
+      position: absolute;
+      width: 140px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,1), transparent);
+      border-radius: 999px;
+      opacity: 0;
+      transform-origin: left center;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.9));
+      animation: shooting 2s linear forwards;
+    }
+
+    @keyframes shooting {
+      0% {
+        transform: translate3d(0,0,0) rotate(45deg);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      100% {
+        transform: translate3d(400px, 400px, 0) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+      .navbar { padding-inline: 24px; }
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-inline: 24px;
+      }
+      .hero-left {
+        max-width: 100%;
+        order: 2;
+      }
+      .hero-right { order: 1; }
+      .hero-buttons { justify-content: center; }
+      .hero-social { justify-content: center; }
+      section { padding-inline: 24px; }
+      .contact-grid {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .navbar { justify-content: space-between; }
+      .hero-left h1 { font-size: 38px; }
+      .orbit-wrapper {
+        width: 260px;
+        height: 260px;
+      }
+      .orbit-center {
+        width: 150px;
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div id="loader-inner">
+      <div id="loader-box"></div>
+      <div id="loader-hill"></div>
+    </div>
+  </div>
+
+  <!-- STARFIELD BACKGROUND -->
+  <div class="starfield" id="starfield"></div>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-logo">venzhyx<span>.net</span></div>
+    <nav class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#dumb">Dumb</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-icons">
+      <a href="https://github.com/venzhyx" target="_blank">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <a href="https://www.tiktok.com/@veinluxupican" target="_blank">
+        <i class="fa-brands fa-tiktok"></i>
+      </a>
+      <a href="https://wa.me/6282315498684" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="home" class="hero">
+    <div class="hero-left">
+      <p class="hello">Hello, I'm Evan <span>👋</span></p>
+      <p class="hero-role">Web Developer · Student · Android & Laravel Enthusiast</p>
+
+      <h1>Building clean and modern digital experiences.</h1>
+
+      <p class="typing-line">
+        <span id="typewriter"></span>
+      </p>
+
+      <p class="subtitle">
+        I enjoy turning ideas into real products — from Android apps and Laravel-based
+        web platforms to simple experimental projects like this site.
+        Currently learning deeper about full-stack development, REST APIs,
+        and UI/UX for better user experiences.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#" class="btn-primary">
+          <i class="fa-solid fa-download"></i>
+          Download CV
+        </a>
+        <a href="#projects" class="btn-ghost">
+          <i class="fa-solid fa-play"></i>
+          View My Projects
+        </a>
+      </div>
+
+      <div class="hero-social">
+        <a href="https://wa.me/6282315498684" target="_blank">
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
+        <a href="https://www.tiktok.com/@veinluxupican" target="_blank">
+          <i class="fa-brands fa-tiktok"></i>
+        </a>
+        <a href="https://github.com/venzhyx" target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="orbit-wrapper">
+        <div class="orbit-center">
+          <img src="assets/pfp.jpg" alt="Profile" />
+        </div>
+
+        <div class="orbit-icon html"  style="--angle: 0deg;">
+          <i class="fa-brands fa-html5"></i>
+        </div>
+        <div class="orbit-icon css"   style="--angle: 60deg;">
+          <i class="fa-brands fa-css3-alt"></i>
+        </div>
+        <div class="orbit-icon js"    style="--angle: 120deg;">
+          <i class="fa-brands fa-js"></i>
+        </div>
+        <div class="orbit-icon react" style="--angle: 180deg;">
+          <i class="fa-brands fa-react"></i>
+        </div>
+        <div class="orbit-icon node"  style="--angle: 240deg;">
+          <i class="fa-brands fa-node"></i>
+        </div>
+        <div class="orbit-icon git"   style="--angle: 300deg;">
+          <i class="fa-brands fa-git-alt"></i>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <h2>About Me</h2>
+    <p class="about-intro">
+      I'm a software engineering student with a strong interest in web development,
+      Android applications, and backend APIs. I like experimenting with
+      new ideas, building real projects for school tasks, and learning
+      from every bug and error I meet on the way.
+    </p>
+
+    <div class="about-grid">
+      <!-- Frontend -->
+      <div class="skill-card">
+        <div class="skill-card-inner">
+          <div class="skill-card-face skill-card-front">
+            <div>
+              <div class="skill-card-front-title">Frontend</div>
+              <p class="skill-card-front-sub">
+                HTML, CSS, simple JavaScript, dan layout UI yang bersih.
+              </p>
+            </div>
+            <span class="skill-card-hint">
+              <i class="fa-solid fa-rotate-right"></i>
+              Click to see skill graph
+            </span>
+          </div>
+
+          <div class="skill-card-face skill-card-back">
+            <ul class="skill-list">
+              <li>
+                <div class="skill-item-label">
+                  <span>HTML</span><span>85%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="--level:85%"></div></div>
+              </li>
+              <li>
+                <div class="skill-item-label">
+                  <span>CSS</span><span>80%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="--level:80%"></div></div>
+              </li>
+              <li>
+                <div class="skill-item-label">
+                  <span>JavaScript (basic)</span><span>60%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="--level:60%"></div></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Backend & Web -->
+      <div class="skill-card">
+        <div class="skill-card-inner">
+          <div class="skill-card-face skill-card-front">
+            <div>
+              <div class="skill-card-front-title">Backend & Web</div>
+              <p class="skill-card-front-sub">
+                Laravel, PHP, dan REST API untuk aplikasi web dengan database.
+              </p>
+            </div>
+            <span class="skill-card-hint">
+              <i class="fa-solid fa-rotate-right"></i>
+              Click to see skill graph
+            </span>
+          </div>
+
+          <div class="skill-card-face skill-card-back">
+            <ul class="skill-list">
+              <li>
+                <div class="skill-item-label">
+                  <span>PHP</span><span>75%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="--level:75%"></div></div>
+              </li>
+              <li>
+                <div class="skill-item-label">
+                  <span>Laravel</span><span>70%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="--level:70%"></div></div>
+              </li>
+              <li>
+                <div class="skill-item-label">
+                  <span>MySQL / SQL</span><span>72%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="--level:72%"></div></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile -->
+      <div class="skill-card">
+        <div class="skill-card-inner">
+          <div class="skill-card-face skill-card-front">
+            <div>
+              <div class="skill-card-front-title">Mobile (Android)</div>
+              <p class="skill-card-front-sub">
+                Android dengan Java, Retrofit, dan koneksi ke API + MySQL.
+              </p>
+            </div>
+            <span class="skill-card-hint">
+              <i class="fa-solid fa-rotate-right"></i>
+              Click to see skill graph
+            </span>
+          </div>
+
+          <div class="skill-card-face skill-card-back">
+            <ul class="skill-list">
+              <li>
+                <div class="skill-item-label">
+                  <span>Java (Android)</span><span>70%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="--level:70%"></div></div>
+              </li>
+              <li>
+                <div class="skill-item-label">
+                  <span>Retrofit / REST API</span><span>68%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="--level:68%"></div></div>
+              </li>
+              <li>
+                <div class="skill-item-label">
+                  <span>RecyclerView / UI</span><span>65%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="--level:65%"></div></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tools & Soft Skills -->
+      <div class="skill-card">
+        <div class="skill-card-inner">
+          <div class="skill-card-face skill-card-front">
+            <div>
+              <div class="skill-card-front-title">Tools & Soft Skills</div>
+              <p class="skill-card-front-sub">
+                Environment kerja dan kebiasaan yang bantu build project sampai selesai.
+              </p>
+            </div>
+            <span class="skill-card-hint">
+              <i class="fa-solid fa-rotate-right"></i>
+              Click to see skill graph
+            </span>
+          </div>
+
+          <div class="skill-card-face skill-card-back">
+            <ul class="skill-list">
+              <li>
+                <div class="skill-item-label">
+                  <span>Git & GitHub</span><span>65%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="--level:65%"></div></div>
+              </li>
+              <li>
+                <div class="skill-item-label">
+                  <span>Teamwork / Dokumentasi</span><span>75%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="--level:75%"></div></div>
+              </li>
+              <li>
+                <div class="skill-item-label">
+                  <span>Problem Solving</span><span>80%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="--level:80%"></div></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <h2>Selected Projects</h2>
+    <p>
+      Some of the projects I’ve worked on during my study. Most of them are
+      school assignments that turned into real applications with login systems,
+      CRUD features, and integration with databases or APIs.
+    </p>
+
+    <div class="project-grid">
+      
+
+      <!-- VanStore -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </div>
+          <div>
+            <div class="project-title">VanStore – Laravel E-commerce</div>
+          </div>
+        </div>
+        <p class="project-desc">
+          Website e-commerce untuk UMKM mirip Shopee/Tokopedia, dengan sistem
+          produk, pesanan, status pengiriman dan alur pembayaran via QRIS.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Laravel</span>
+          <span class="project-tag">MySQL</span>
+          <span class="project-tag">QRIS Flow</span>
+        </div>
+        <div class="project-footer">
+          <span class="project-status">
+            <span class="project-status-dot"></span>
+            School Project
+          </span>
+          <span class="project-link">
+            <i class="fa-brands fa-github"></i> Soon on GitHub
+          </span>
+        </div>
+      </div>
+
+      <!-- Alumni Manager -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">
+            <i class="fa-solid fa-user-graduate"></i>
+          </div>
+          <div>
+            <div class="project-title">Student & Alumni Data Manager</div>
+          </div>
+        </div>
+        <p class="project-desc">
+          Aplikasi Android yang terhubung ke MySQL via PHP API. User bisa login,
+          lihat data alumni, dan tambah profil sendiri lengkap dengan foto.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Android (Java)</span>
+          <span class="project-tag">Retrofit</span>
+          <span class="project-tag">REST API</span>
+        </div>
+        <div class="project-footer">
+          <span class="project-status">
+            <span class="project-status-dot"></span>
+            In Progress
+          </span>
+          <span class="project-link">
+            <i class="fa-solid fa-mobile-screen"></i> Android App
+          </span>
+        </div>
+      </div>
+
+      <!-- Permission System -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">
+            <i class="fa-solid fa-door-open"></i>
+          </div>
+          <div>
+            <div class="project-title">Student Permission System</div>
+          </div>
+        </div>
+        <p class="project-desc">
+          Sistem izin siswa dengan dua platform: Android untuk siswa & satpam,
+          dan dashboard web untuk guru & admin. Semua terhubung lewat REST API.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Android</span>
+          <span class="project-tag">Web Dashboard</span>
+          <span class="project-tag">JSON API</span>
+        </div>
+        <div class="project-footer">
+          <span class="project-status">
+            <span class="project-status-dot"></span>
+            Prototype
+          </span>
+          <span class="project-link">
+            <i class="fa-regular fa-eye"></i> Demo Internal
+          </span>
+        </div>
+      </div>
+
+      <!-- VanCourse Admin -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div>
+            <div class="project-title">VanCourse – Admin Panel</div>
+          </div>
+        </div>
+        <p class="project-desc">
+          Panel admin gelap dengan aksen hijau ala Duolingo untuk mengatur
+          users, lessons, levels, dan questions berbasis Laravel Blade.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Laravel Blade</span>
+          <span class="project-tag">Dark UI</span>
+          <span class="project-tag">Dashboard</span>
+        </div>
+        <div class="project-footer">
+          <span class="project-status">
+            <span class="project-status-dot"></span>
+            Finished (v1)
+          </span>
+          <span class="project-link">
+            <i class="fa-brands fa-github"></i> Design Layout
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DUMB -->
+  <section id="dumb">
+    <h2>Dumb</h2>
+    <p>
+      “DUMB” is my little corner for random clips, small moments, and experiments.
+      No serious portfolio, no database, just local files being played on loop.
+      Drop your videos inside <code>assets/dumb/</code> and update the
+      <code>src</code> attributes below.
+    </p>
+
+    <div class="section-card">
+      <div class="gallery">
+
+        <div class="gallery-item">
+          <video class="dumb-video"
+                 src="assets/dumb/video1.mp4"
+                 autoplay
+                 loop
+                 muted
+                 playsinline>
+          </video>
+
+          <div class="custom-controls">
+            <button class="play-pause">
+              <i class="fa-solid fa-pause"></i>
+            </button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0">
+          </div>
+
+          <span class="gallery-label">Random Clip #1</span>
+        </div>
+
+        <div class="gallery-item">
+          <video class="dumb-video"
+                 src="assets/dumb/video2.mp4"
+                 autoplay
+                 loop
+                 muted
+                 playsinline>
+          </video>
+
+          <div class="custom-controls">
+            <button class="play-pause">
+              <i class="fa-solid fa-pause"></i>
+            </button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0">
+          </div>
+
+          <span class="gallery-label">Random Clip #2</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>
+      If you’re interested in working together, have questions about my projects,
+      or just want to talk about code and tech, feel free to reach out.
+    </p>
+
+    <div class="contact-grid">
+      <!-- Left: info -->
+      <div class="contact-card">
+        <div class="contact-main-title">Let's build something together</div>
+        <p class="contact-main-text">
+          Kamu bisa hubungi aku lewat WhatsApp untuk ngobrol singkat,
+          email untuk hal yang lebih formal, atau cek repo di GitHub.
+        </p>
+        <ul class="contact-list">
+          <li><strong>Email:</strong> <span>venzhyx@example.com</span></li>
+          <li><strong>WhatsApp:</strong> <span>+62 823-1548-684</span></li>
+          <li><strong>GitHub:</strong> <span>github.com/venzhyx</span></li>
+        </ul>
+      </div>
+
+      <!-- Right: CTA buttons -->
+      <div class="contact-card contact-cta-card">
+        <a class="contact-btn whatsapp" href="https://wa.me/628231548684" target="_blank">
+          <i class="fa-brands fa-whatsapp"></i>
+          Chat via WhatsApp
+        </a>
+        <a class="contact-btn" href="mailto:venzhyx@example.com">
+          <i class="fa-regular fa-envelope"></i>
+          Send me an Email
+        </a>
+        <a class="contact-btn" href="https://github.com/venzhyx" target="_blank">
+          <i class="fa-brands fa-github"></i>
+          View GitHub Profile
+        </a>
+        <span class="contact-hint">
+          Fastest response usually via WhatsApp.
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 venzhyx.net · Built with pure HTML, CSS, and a bit of JavaScript.
+  </footer>
+
+  <!-- Scroll buttons -->
+  <div class="scroll-btns">
+    <button id="btn-up"><i class="fa-solid fa-chevron-up"></i></button>
+    <button id="btn-down"><i class="fa-solid fa-chevron-down"></i></button>
+  </div>
+
+  <script>
+    const btnUp = document.getElementById("btn-up");
+    const btnDown = document.getElementById("btn-down");
+    const sectionsOrder = ["home", "about", "projects", "dumb", "contact"];
+    const NAV_OFFSET = 72;
+
+    // hide loader
+    window.addEventListener("load", () => {
+      const loader = document.getElementById("loader");
+      setTimeout(() => { loader.classList.add("hide"); }, 400);
+    });
+
+    function getCurrentSectionIndex() {
+      const scrollPos = window.scrollY + window.innerHeight / 2;
+      return sectionsOrder.findIndex(id => {
+        const sec = document.getElementById(id);
+        if (!sec) return false;
+        const top = sec.offsetTop;
+        const bottom = top + sec.offsetHeight;
+        return scrollPos >= top && scrollPos < bottom;
+      });
+    }
+
+    btnDown.addEventListener("click", () => {
+      let currentIndex = getCurrentSectionIndex();
+      if (currentIndex === -1) currentIndex = 0;
+      if (currentIndex >= sectionsOrder.length - 1) return;
+      const next = document.getElementById(sectionsOrder[currentIndex + 1]);
+      const y = next.offsetTop - NAV_OFFSET;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    });
+
+    btnUp.addEventListener("click", () => {
+      let currentIndex = getCurrentSectionIndex();
+      if (currentIndex <= 0) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+      const prev = document.getElementById(sectionsOrder[currentIndex - 1]);
+      const y = prev.offsetTop - NAV_OFFSET;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    });
+
+    document.querySelectorAll(".nav-links a").forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        const targetId = link.getAttribute("href").slice(1);
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        const y = target.offsetTop - NAV_OFFSET;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      });
+    });
+
+    // TYPEWRITER
+    const typeTarget = document.getElementById("typewriter");
+    const phrases = [
+      "Building clean and modern digital experiences.",
+      "I'm a Web Developer.",
+      "I'm an Android Developer.",
+      "I'm a Desktop Developer."
+    ];
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function typeLoop() {
+      const current = phrases[phraseIndex];
+      const visible = current.substring(0, charIndex);
+      typeTarget.textContent = visible;
+
+      if (!deleting) {
+        if (charIndex < current.length) {
+          charIndex++;
+          setTimeout(typeLoop, 90);
+        } else {
+          deleting = true;
+          setTimeout(typeLoop, 1500);
+        }
+      } else {
+        if (charIndex > 0) {
+          charIndex--;
+          setTimeout(typeLoop, 50);
+        } else {
+          deleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          setTimeout(typeLoop, 300);
+        }
+      }
+    }
+    typeLoop();
+
+    // CUSTOM VIDEO CONTROLS
+    const dumbItems = document.querySelectorAll(".gallery-item");
+    dumbItems.forEach(item => {
+      const video = item.querySelector(".dumb-video");
+      const playBtn = item.querySelector(".play-pause");
+      const volSlider = item.querySelector(".volume-slider");
+      const icon = playBtn.querySelector("i");
+
+      if (!video || !playBtn || !volSlider) return;
+
+      video.volume = 0;
+
+      playBtn.addEventListener("click", () => {
+        if (video.paused) {
+          video.play();
+          icon.classList.remove("fa-play");
+          icon.classList.add("fa-pause");
+        } else {
+          video.pause();
+          icon.classList.remove("fa-pause");
+          icon.classList.add("fa-play");
+        }
+      });
+
+      video.addEventListener("click", () => {
+        playBtn.click();
+      });
+
+      volSlider.addEventListener("input", () => {
+        const vol = parseFloat(volSlider.value);
+        video.muted = false;
+        video.volume = vol;
+      });
+    });
+
+    // ABOUT FLIP CARDS
+    document.querySelectorAll(".skill-card").forEach(card => {
+      card.addEventListener("click", () => {
+        card.classList.toggle("flipped");
+      });
+    });
+
+    // STARFIELD
+    const starfield = document.getElementById("starfield");
+
+    function createStar(layerClass) {
+      const star = document.createElement("div");
+      star.classList.add("star", layerClass);
+      star.style.top = Math.random() * 100 + "vh";
+      star.style.left = Math.random() * 100 + "vw";
+      star.style.opacity = (0.2 + Math.random() * 0.8).toFixed(2);
+      star.style.animationDuration = (2.5 + Math.random() * 3).toFixed(2) + "s";
+      starfield.appendChild(star);
+    }
+
+    for (let i = 0; i < 70; i++) createStar("layer-1");
+    for (let i = 0; i < 50; i++) createStar("layer-2");
+    for (let i = 0; i < 30; i++) createStar("layer-3");
+
+    function spawnMeteor() {
+      const meteor = document.createElement("div");
+      meteor.classList.add("shooting-star");
+      const startTop = Math.random() * 40 - 10;
+      const startLeft = Math.random() * 60 - 20;
+      meteor.style.top = startTop + "vh";
+      meteor.style.left = startLeft + "vw";
+      meteor.style.animationDuration = (1.4 + Math.random() * 1.6).toFixed(2) + "s";
+      starfield.appendChild(meteor);
+      setTimeout(() => { meteor.remove(); }, 4000);
+    }
+
+    function scheduleMeteor() {
+      const delay = 4000 + Math.random() * 4000;
+      setTimeout(() => {
+        spawnMeteor();
+        scheduleMeteor();
+      }, delay);
+    }
+    scheduleMeteor();
+  </script>
+</body>
+</html>
